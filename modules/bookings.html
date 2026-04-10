@@ -37,17 +37,17 @@
         <button id="confirmNo">No</button>
     </div>
 </div>
-
-<script>
-
 /* ================= LOAD BOOKINGS ================= */
+<script>
+let selectedBookingId = null;
+/* LOAD BOOKINGS */
 async function loadBookings() {
 
     let container = document.getElementById("bookingList");
     container.innerHTML = "";
 
     try {
-        let res = await fetch("https://rentease-backend-1.onrender.com/api/bookings")
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/bookings");
         let bookings = await res.json();
 
         if (bookings.length === 0) {
@@ -66,7 +66,7 @@ async function loadBookings() {
                 <p>Date: ${b.date}</p>
                 <p>${b.status}</p>
 
-                <button onclick="openCancelModal('${b._id}')">
+                <button class="cancel-btn" data-id="${b._id}">
                     Cancel Booking
                 </button>
             `;
@@ -74,50 +74,56 @@ async function loadBookings() {
             container.appendChild(div);
         });
 
+        /* 🔥 IMPORTANT: ADD EVENT LISTENER AFTER RENDER */
+        document.querySelectorAll(".cancel-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                selectedBookingId = btn.getAttribute("data-id");
+                document.getElementById("confirmModal").style.display = "flex";
+            });
+        });
+
     } catch (error) {
         console.log(error);
-        alert("Failed to load bookings ❌");
+        alert("Error loading bookings ❌");
     }
 }
 
-/* ================= CANCEL ================= */
-let selectedBookingId = null;
+/* YES CANCEL */
+document.getElementById("confirmYes").addEventListener("click", async () => {
 
-function openCancelModal(id) {
-    selectedBookingId = id;
-    document.getElementById("confirmModal").style.display = "flex";
-}
+    if (!selectedBookingId) return;
 
-/* YES */
-document.getElementById("confirmYes").onclick = async function () {
+    try {
+        let res = await fetch(`https://rentease-backend-1.onrender.com/api/bookings/${selectedBookingId}`, {
+            method: "DELETE"
+        });
 
-    await fetch(`https://rentease-backend-1.onrender.com/api/bookings/${selectedBookingId}`, {
-        method: "DELETE"
-    });
+        if (!res.ok) {
+            alert("Delete failed ❌");
+            return;
+        }
 
-    document.getElementById("confirmModal").style.display = "none";
+        document.getElementById("confirmModal").style.display = "none";
 
-    alert("Booking Cancelled ❌");
+        alert("Booking Cancelled ❌");
 
-    loadBookings();
-};
+        loadBookings();
 
-/* NO */
-document.getElementById("confirmNo").onclick = function () {
-    document.getElementById("confirmModal").style.display = "none";
-};
-
-/* ================= DARK MODE ================= */
-let toggle = document.getElementById("darkToggle");
-
-toggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
+    } catch (err) {
+        console.log(err);
+        alert("Error deleting booking ❌");
+    }
 });
 
-/* ================= LOAD ================= */
-window.onload = loadBookings;
+/* NO BUTTON */
+document.getElementById("confirmNo").addEventListener("click", () => {
+    document.getElementById("confirmModal").style.display = "none";
+});
 
+/* LOAD */
+window.onload = () => {
+    setTimeout(loadBookings, 2000);
+};
 </script>
-
 </body>
 </html>
