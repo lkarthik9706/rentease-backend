@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Properties</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<header class="navbar">
+    <h1>🏠 RentEase</h1>
+    <ul>
+        <!-- from modules -->
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../modules/properties.html">Properties</a></li>
+        <li><a href="../modules/bookings.html">Bookings</a></li>
+        <li><a href="../modules/login.html">Login</a></li>
+        <li><a href="../modules/register.html">Register</a></li>
+        <li><a href="../modules/adminpanel.html">Admin</a></li>
+        <button id="darkToggle">🌙</button>
+    </ul>
+</header>
+<h2 style="text-align:center;">All Properties</h2>
+<div class="property-container">
+
+<div class="card">
+    <h3>Luxury Apartment</h3>
+    <p>Amsterdam</p>
+    <button>Book</button>
+</div>
+
+<div class="card">
+    <h3>Modern Studio</h3>
+    <p>Utrecht</p>
+    <button>Book</button>
+</div>
+
+</div>
+<script >
+document.querySelectorAll(".book-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+
+        let card = btn.closest(".card");
+
+        let property = {
+            title: card.querySelector("h3").innerText,
+            location: card.querySelector("p").innerText,
+            price: card.querySelector(".price").innerText
+        };
+
+        localStorage.setItem("selectedProperty", JSON.stringify(property));
+
+        window.location.href = "../modules/payment.html";
+    });
+});
+</script>
+</body>
+</html>
