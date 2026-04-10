@@ -79,51 +79,42 @@ async function loadBookings() {
 /* ================= CANCEL BOOKING ================= */
 let selectedBookingId = null;
 
+/* OPEN MODAL */
 function openCancelModal(id) {
     selectedBookingId = id;
     document.getElementById("confirmModal").style.display = "flex";
 }
 
-/* YES CANCEL */
-let yesBtn = document.getElementById("confirmYes");
-if (yesBtn) {
-    yesBtn.onclick = async function () {
+/* WAIT FOR PAGE LOAD */
+window.onload = function () {
 
-       await fetch(`https://rentease-backend-1.onrender.com/api/bookings/${id}`, {
-            method: "DELETE"
-        });
+    loadBookings();
 
-        document.getElementById("confirmModal").style.display = "none";
+    let yesBtn = document.getElementById("confirmYes");
+    let noBtn = document.getElementById("confirmNo");
 
-        showMessage("Booking Cancelled ❌");
+    if (yesBtn && noBtn) {
 
-        loadBookings();
-    };
-}
+        /* YES CANCEL */
+        yesBtn.onclick = async function () {
 
-/* NO CANCEL */
-let noBtn = document.getElementById("confirmNo");
-if (noBtn) {
-    noBtn.onclick = function () {
-        document.getElementById("confirmModal").style.display = "none";
-    };
-}
+            await fetch(`https://rentease-backend-1.onrender.com/api/bookings/${selectedBookingId}`, {
+                method: "DELETE"
+            });
 
-/* ================= MESSAGE ================= */
-function showMessage(text) {
-    let msg = document.createElement("div");
-    msg.className = "custom-message";
-    msg.innerText = text;
+            document.getElementById("confirmModal").style.display = "none";
 
-    document.body.appendChild(msg);
+            showMessage("Booking Cancelled ❌");
 
-    setTimeout(() => msg.classList.add("show"), 100);
+            loadBookings();
+        };
 
-    setTimeout(() => {
-        msg.classList.remove("show");
-        setTimeout(() => msg.remove(), 400);
-    }, 2500);
-}
+        /* NO CANCEL */
+        noBtn.onclick = function () {
+            document.getElementById("confirmModal").style.display = "none";
+        };
+    }
+};
 
 /* ================= DARK MODE ================= */
 let toggle = document.getElementById("darkToggle");
