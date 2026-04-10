@@ -28,7 +28,7 @@ async function completePayment() {
     };
 
     try {
-        let res = await fetch("https://rentease-backend.onrender.com/api/bookings", {  // ✅ FIXED
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/bookings", {  // ✅ FIXED
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

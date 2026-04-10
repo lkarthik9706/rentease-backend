@@ -2,7 +2,7 @@
 async function loadDashboard() {
 
     try {
-        let res = await fetch("https://rentease-backend.onrender.com/api/bookings"); // ✅ FIXED URL
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/bookings"); // ✅ FIXED URL
         let bookings = await res.json();
         /* TOTAL BOOKINGS */
         document.getElementById("totalBookings").innerText = bookings.length;

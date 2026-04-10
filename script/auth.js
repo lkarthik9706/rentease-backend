@@ -6,7 +6,7 @@ async function registerUser() {
     let password = document.getElementById("registerPassword").value;
 
     try {
-        let res = await fetch("https://rentease-backend.onrender.com/api/users/register", {
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -40,7 +40,7 @@ async function loginUser() {
     let password = document.getElementById("loginPassword").value;
 
     try {
-        let res = await fetch("https://rentease-backend.onrender.com/api/users/login", {
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

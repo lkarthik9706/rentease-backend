@@ -43,7 +43,7 @@ async function loadBookings() {
     container.innerHTML = "";
 
     try {
-        let res = await fetch("https://rentease-backend.onrender.com/api/bookings"); // ✅ FIXED
+        let res = await fetch("https://rentease-backend-1.onrender.com/api/bookings"); // ✅ FIXED
         let bookings = await res.json();
 
         if (bookings.length === 0) {
@@ -89,7 +89,7 @@ let yesBtn = document.getElementById("confirmYes");
 if (yesBtn) {
     yesBtn.onclick = async function () {
 
-        await fetch(`https://rentease-backend.onrender.com/api/bookings/${selectedBookingId}`, { // ✅ FIXED
+       await fetch(`https://rentease-backend-1.onrender.com/api/bookings/${id}`, {
             method: "DELETE"
         });
 
