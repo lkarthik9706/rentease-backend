@@ -11,7 +11,7 @@ app.use(cors({
 app.use(express.json());
 
 /* CONNECT DATABASE */
-mongoose.connect("mongodb://lkarthik:87654321@ac-6nrwcso-shard-00-00.ekmyqii.mongodb.net:27017,ac-6nrwcso-shard-00-01.ekmyqii.mongodb.net:27017,ac-6nrwcso-shard-00-02.ekmyqii.mongodb.net:27017/rentease?ssl=true&replicaSet=atlas-t13s5o-shard-0&authSource=admin&retryWrites=true&w=majority")
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.log("❌ DB Error:", err));
 /* ROUTES */
